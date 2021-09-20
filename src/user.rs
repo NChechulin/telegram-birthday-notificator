@@ -3,9 +3,9 @@ use chrono::{Datelike, NaiveDate};
 
 #[derive(Debug)]
 pub struct User {
-    full_name: String,
-    handle: String,
-    birthday: NaiveDate,
+    pub(crate) full_name: String,
+    pub(crate) handle: String,
+    pub(crate) birthday: NaiveDate,
 }
 
 impl User {

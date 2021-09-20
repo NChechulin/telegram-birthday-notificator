@@ -7,3 +7,4 @@ edition = "2018"
 
 [dependencies]
 chrono = "0.4.19"
+rusqlite = "0.25.3"
