@@ -1,4 +1,7 @@
 mod user;
+mod config;
+
+
 use crate::user::User;
 use chrono::NaiveDate;
 use rusqlite::{Connection, Result};
@@ -13,8 +16,8 @@ fn string_to_date(date: String) -> NaiveDate {
 }
 
 /// Reads users from the database
-fn read_user_list() -> Result<Vec<User>, &'static str> {
-    let conn = match Connection::open("/home/nikolay/Documents/dev/dsba201_bday_bot/db.db") {
+fn read_user_list(path: String) -> Result<Vec<User>, &'static str> {
+    let conn = match Connection::open(path) {
         Ok(val) => val,
         Err(_) => {
             return Err("Could not connect to database");
@@ -42,7 +45,8 @@ fn read_user_list() -> Result<Vec<User>, &'static str> {
 }
 
 fn main() {
-    for user in read_people_list().unwrap() {
+    let config = config::Config::load("/home/nikolay/Documents/dev/dsba201_bday_bot/config.json");
+    for user in read_user_list(config.sqlite_db_path).unwrap() {
         println!("{:?}", user);
     }
 }
