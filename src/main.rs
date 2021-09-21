@@ -48,7 +48,7 @@ fn read_user_list(path: String) -> Result<Vec<User>, &'static str> {
 
 #[tokio::main]
 async fn main() {
-    let config = config::Config::load("/home/nikolay/Documents/dev/dsba201_bday_bot/config.json");
+    let config = config::Config::load("config.json");
     let users = read_user_list(config.sqlite_db_path).unwrap();
     let bot = TelegramBot::new(&config.telegram_bot_token, config.telegram_chat_ids);
 
