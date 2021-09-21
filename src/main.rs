@@ -1,10 +1,12 @@
-mod user;
+mod bot;
 mod config;
+mod user;
 
-
+use crate::bot::TelegramBot;
 use crate::user::User;
 use chrono::NaiveDate;
 use rusqlite::{Connection, Result};
+use tokio;
 
 /// Converts a string like `"01-01-2021"` into a date object
 fn string_to_date(date: String) -> NaiveDate {
@@ -44,9 +46,21 @@ fn read_user_list(path: String) -> Result<Vec<User>, &'static str> {
         .collect::<Vec<User>>())
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let config = config::Config::load("/home/nikolay/Documents/dev/dsba201_bday_bot/config.json");
-    for user in read_user_list(config.sqlite_db_path).unwrap() {
-        println!("{:?}", user);
+    let users = read_user_list(config.sqlite_db_path).unwrap();
+    let bot = TelegramBot::new(&config.telegram_bot_token, config.telegram_chat_ids);
+
+    for user in users {
+        if user.is_birthday() {
+            bot.wish_a_happy_bday(user).await;
+        }
     }
+
+    /*match bot.send_message_to_chat("hi bro".to_string(), CHAT_ID_WAS_HERE).await {
+        Ok(_) => println!("OK"),
+        Err(msg) => println!("Err: {}", msg),
+    }
+     */
 }
