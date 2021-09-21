@@ -6,6 +6,7 @@ pub struct Config {
     pub sqlite_db_path: String,
     pub telegram_bot_token: String,
     pub telegram_chat_ids: Vec<i32>,
+    pub greeting_templates: Vec<String>,
 }
 
 impl Config {

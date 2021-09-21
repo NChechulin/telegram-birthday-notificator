@@ -50,17 +50,11 @@ fn read_user_list(path: String) -> Result<Vec<User>, &'static str> {
 async fn main() {
     let config = config::Config::load("config.json");
     let users = read_user_list(config.sqlite_db_path).unwrap();
-    let bot = TelegramBot::new(&config.telegram_bot_token, config.telegram_chat_ids);
+    let bot = TelegramBot::new(&config.telegram_bot_token, config.telegram_chat_ids, &config.greeting_templates);
 
-    for user in users {
+    for user in &users {
         if user.is_birthday() {
             bot.wish_a_happy_bday(user).await;
         }
     }
-
-    /*match bot.send_message_to_chat("hi bro".to_string(), CHAT_ID_WAS_HERE).await {
-        Ok(_) => println!("OK"),
-        Err(msg) => println!("Err: {}", msg),
-    }
-     */
 }

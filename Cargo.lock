@@ -89,6 +89,7 @@ name = "dsba201_bday_bot"
 version = "0.1.0"
 dependencies = [
  "chrono",
+ "rand",
  "reqwest",
  "rusqlite",
  "serde",

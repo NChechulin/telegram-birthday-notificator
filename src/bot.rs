@@ -1,18 +1,21 @@
 use crate::user::User;
 use reqwest::{Client, StatusCode};
+use rand::seq::SliceRandom;
 
-pub struct TelegramBot {
+pub struct TelegramBot<'a> {
     client: Client,
     base_url: String,
     chat_ids: Vec<i32>,
+    greeting_templates: &'a Vec<String>,
 }
 
-impl TelegramBot {
-    pub fn new(token: &String, chat_ids: Vec<i32>) -> TelegramBot {
+impl TelegramBot<'_> {
+    pub fn new<'a>(token: &'a String, chat_ids: Vec<i32>, greeting_templates: &'a Vec<String>) -> TelegramBot<'a> {
         TelegramBot {
             client: Client::new(),
             base_url: format!("https://api.telegram.org/bot{}/sendMessage", token),
             chat_ids,
+            greeting_templates,
         }
     }
 
@@ -36,8 +39,14 @@ impl TelegramBot {
         }
     }
 
-    pub async fn wish_a_happy_bday(&self, user: User) {
-        let message: String = format!("Happy birthday, {}!", user.handle);
+    fn generate_greeting(&self, handle: &String) -> String {
+        let greeting = self.greeting_templates.choose(&mut rand::thread_rng()).unwrap();
+        greeting.replace("@handle", handle)
+    }
+
+    pub async fn wish_a_happy_bday(&self, user: &User) {
+        let message = self.generate_greeting(&user.handle);
+
         for chat_id in &self.chat_ids {
             match self.send_message_to_chat(&message, *chat_id).await {
                 Ok(_) => {}
