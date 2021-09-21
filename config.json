@@ -1,5 +1,9 @@
 {
   "sqlite_db_path": "",
   "telegram_bot_token": "",
-  "telegram_chat_ids": []
+  "telegram_chat_ids": [],
+  "greeting_templates": [
+    "Happy birthday, @handle!",
+    "@handle deserves a cake"
+  ]
 }
