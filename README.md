@@ -22,7 +22,8 @@ CREATE TABLE "Users" (
 Example of a record: `Nikolay Chechulin; @nchechulin; 2002-04-18` (handle is telegram username, birthday is in format `yyyy-mm-dd`)
 
 4. Clone the repo, `cd` into the diretory
-5. Compile the project: `cargo build --release`
-6. Place the executable in the same directory as `config.json`
-7. Create a `cron` job which runs the program every 24 hours
-8. Enjoy!
+5. Ensure you have `libssl-dev`/`openssl-devel` and `pkg-config` installed
+6. Compile the project: `cargo build --release`
+7. Place the executable in the same directory as `config.json`
+8. Create a `cron` job which runs the program every 24 hours
+9. Enjoy!
