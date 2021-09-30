@@ -51,7 +51,11 @@ async fn main() {
     let config = config::Config::load("config.json");
     let users = read_user_list(config.sqlite_db_path).unwrap();
     let bot = TelegramBot::new(&config.telegram_bot_token, config.telegram_chat_ids, &config.greeting_templates);
-
+    
+    // here we fetch all the users from the DB and then iterate over them
+    // actually it's not the best thing to do, but since the number of users
+    // is relatively low, it doesn't affect the perfomance that much
+    // TODO: rewrite the SQL query
     for user in &users {
         if user.is_birthday() {
             bot.wish_a_happy_bday(user).await;
