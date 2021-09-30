@@ -1,5 +1,5 @@
 [package]
-name = "dsba201_bday_bot"
+name = "telegram-birthday-notificator"
 version = "0.1.0"
 edition = "2018"
 
